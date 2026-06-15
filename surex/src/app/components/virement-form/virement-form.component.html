@@ -1,0 +1,115 @@
+<div class="form-container">
+  <div class="form-header">
+    <button class="btn-back" (click)="goBack()">← Retour</button>
+    <h1>{{ transaction ? 'Éditer' : 'Nouveau' }} Virement</h1>
+  </div>
+
+  <div *ngIf="isLoading" class="loading">Chargement...</div>
+
+  <div *ngIf="!isLoading" class="form-content">
+    <!-- Section 1: Référence et Motif -->
+    <div class="form-section">
+      <h2>Informations du Virement</h2>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="motif">Motif / Référence</label>
+          <input
+            id="motif"
+            type="text"
+            [(ngModel)]="formData.motif"
+            placeholder="Ex: Surestaries - Conteneur MSCU123"
+          />
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group half">
+          <label for="reference">Référence BL / LTA</label>
+          <input
+            id="reference"
+            type="text"
+            [(ngModel)]="formData.referenceBL"
+            placeholder="Ex: BL-2025-001"
+          />
+        </div>
+        <div class="form-group half">
+          <label for="montant">Montant</label>
+          <input
+            id="montant"
+            type="number"
+            [(ngModel)]="formData.montant"
+            placeholder="0.00"
+          />
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 2: Compte Émetteur -->
+    <div class="form-section">
+      <h2>Compte Émetteur (Importateur)</h2>
+
+      <div class="form-row">
+        <div class="form-group half">
+          <label for="rib">RIB</label>
+          <input id="rib" type="text" [(ngModel)]="formData.rib" placeholder="RIB" />
+        </div>
+        <div class="form-group half">
+          <label for="banque">Banque</label>
+          <input
+            id="banque"
+            type="text"
+            [(ngModel)]="formData.banque"
+            placeholder="Nom de la banque"
+          />
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 3: Bénéficiaire -->
+    <div class="form-section">
+      <h2>Bénéficiaire (Agent maritime)</h2>
+
+      <div class="form-row">
+        <div class="form-group half">
+          <label for="nomComplet">Nom Complet</label>
+          <input
+            id="nomComplet"
+            type="text"
+            [(ngModel)]="formData.nomComplet"
+            placeholder="Nom du bénéficiaire"
+          />
+        </div>
+        <div class="form-group half">
+          <label for="ribBenef">RIB</label>
+          <input
+            id="ribBenef"
+            type="text"
+            [(ngModel)]="formData.ribBenef"
+            placeholder="RIB"
+          />
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="banqueBenef">Banque</label>
+          <input
+            id="banqueBenef"
+            type="text"
+            [(ngModel)]="formData.banqueBeneficiaire"
+            placeholder="Banque du bénéficiaire"
+          />
+        </div>
+      </div>
+    </div>
+
+    <!-- Boutons d'action -->
+    <div class="form-actions">
+      <button class="btn btn-secondary" (click)="goBack()">Annuler</button>
+      <button class="btn btn-primary" (click)="onSave()" [disabled]="isSaving">
+        {{ isSaving ? 'Enregistrement...' : 'Enregistrer' }}
+      </button>
+    </div>
+  </div>
+</div>

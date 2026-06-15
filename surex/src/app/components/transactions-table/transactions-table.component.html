@@ -1,0 +1,65 @@
+<div class="table-container">
+  <table>
+    <thead>
+      <tr>
+        <th>Référence</th>
+        <th>Type</th>
+        <th>Montant</th>
+        <th>Statut</th>
+        <th>Date émission</th>
+        <th>Bénéficiaire/Destinataire</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngIf="transactions.length === 0">
+        <td colspan="7" style="text-align: center; padding: 32px; color: #9ca3af">
+          Aucune opération trouvée
+        </td>
+      </tr>
+      <tr *ngFor="let transaction of transactions">
+        <td>
+          <strong>
+            <a [routerLink]="getEditRoute(transaction)" class="ref-link">
+              {{ transaction.ref }}
+            </a>
+          </strong>
+        </td>
+        <td>{{ transaction.sousType || (transaction.type === 'virementDT' ? 'Virement DT' : 'Virement Devises') }}</td>
+        <td>{{ transaction.montant.toLocaleString() }} {{ transaction.devise }}</td>
+        <td>
+          <span
+            class="status-badge"
+            [ngClass]="getStatutClass(transaction.statut)"
+          >
+            {{ formatStatut(transaction.statut) }}
+          </span>
+        </td>
+        <td>{{ formatDate(transaction.date) }}</td>
+        <td>{{ getDestinaire(transaction) }}</td>
+        <td>
+          <div class="action-icons">
+            <span
+              *ngIf="canApprove(transaction)"
+              title="Approuver"
+              (click)="onApprove(transaction)"
+              class="action-icon"
+            >
+              ✅
+            </span>
+            <a
+              [routerLink]="getEditRoute(transaction)"
+              title="Éditer"
+              class="action-icon"
+            >
+              ✏️
+            </a>
+            <span title="Supprimer" (click)="onDelete(transaction)" class="action-icon">
+              🗑️
+            </span>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

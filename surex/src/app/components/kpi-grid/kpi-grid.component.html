@@ -1,0 +1,28 @@
+<div class="kpi-grid" *ngIf="kpiData">
+  <div class="kpi-card">
+    <div class="kpi-title">Total engagé</div>
+    <div class="kpi-value">
+      {{ kpiData.totalMontant.toLocaleString() }}
+      {{ kpiData.totalMontantDevise }}
+    </div>
+    <div class="kpi-trend">Toutes opérations</div>
+  </div>
+
+  <div class="kpi-card">
+    <div class="kpi-title">En cours</div>
+    <div class="kpi-value">{{ kpiData.enCoursCount }}</div>
+    <div class="kpi-trend">Dossiers actifs</div>
+  </div>
+
+  <div class="kpi-card">
+    <div class="kpi-title">Clôturés</div>
+    <div class="kpi-value">{{ kpiData.clotureMontant }}</div>
+    <div class="kpi-trend">Validés</div>
+  </div>
+
+  <div class="kpi-card">
+    <div class="kpi-title">Émis / En attente</div>
+    <div class="kpi-value">{{ kpiData.emisCount }}</div>
+    <div class="kpi-trend">Nouveaux</div>
+  </div>
+</div>

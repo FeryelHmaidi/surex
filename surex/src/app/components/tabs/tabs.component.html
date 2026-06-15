@@ -1,0 +1,11 @@
+<div class="tabs">
+  <div
+    *ngFor="let tab of tabItems"
+    class="tab"
+    [class.active]="currentTab === tab.id"
+    [class.hidden]="!isTabVisible(tab.id)"
+    (click)="onTabClick(tab.id)"
+  >
+    {{ tab.label }}
+  </div>
+</div>
