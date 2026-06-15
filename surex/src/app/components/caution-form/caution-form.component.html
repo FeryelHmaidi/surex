@@ -1,0 +1,150 @@
+<div class="form-container">
+  <div class="form-header">
+    <button class="btn-back" (click)="goBack()">← Retour</button>
+    <h1>{{ transaction ? 'Éditer' : 'Nouvelle' }} Caution Bancaire</h1>
+  </div>
+
+  <div *ngIf="isLoading" class="loading">Chargement...</div>
+
+  <div *ngIf="!isLoading" class="form-content">
+    <!-- Section 1: Informations Générales -->
+    <div class="form-section">
+      <h2>Informations Générales</h2>
+
+      <div class="form-row">
+        <div class="form-group half">
+          <label for="reference">Référence</label>
+          <input
+            id="reference"
+            type="text"
+            [(ngModel)]="formData.reference"
+            placeholder="Ex: CAU/2025/001"
+          />
+        </div>
+        <div class="form-group half">
+          <label for="type">Type de Caution</label>
+          <select id="type" [(ngModel)]="formData.type">
+            <option *ngFor="let type of cautionTypes" [value]="type.value">
+              {{ type.label }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group half">
+          <label for="montant">Montant</label>
+          <input
+            id="montant"
+            type="number"
+            [(ngModel)]="formData.montant"
+            placeholder="0.00"
+          />
+        </div>
+        <div class="form-group half">
+          <label for="devise">Devise</label>
+          <select id="devise" [(ngModel)]="formData.devise">
+            <option *ngFor="let devise of devises" [value]="devise">
+              {{ devise }}
+            </option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 2: Dates -->
+    <div class="form-section">
+      <h2>Dates</h2>
+
+      <div class="form-row">
+        <div class="form-group half">
+          <label for="dateEmission">Date d'émission</label>
+          <input id="dateEmission" type="date" [(ngModel)]="formData.dateEmission" />
+        </div>
+        <div class="form-group half">
+          <label for="dateExpiration">Date d'expiration</label>
+          <input
+            id="dateExpiration"
+            type="date"
+            [(ngModel)]="formData.dateExpiration"
+          />
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 3: Bénéficiaire -->
+    <div class="form-section">
+      <h2>Bénéficiaire</h2>
+
+      <div class="form-row">
+        <div class="form-group full">
+          <label for="beneficiaire">Nom du Bénéficiaire</label>
+          <input
+            id="beneficiaire"
+            type="text"
+            [(ngModel)]="formData.beneficiaire"
+            placeholder="Ex: Douane Tunisienne"
+          />
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 4: Détails Bancaires -->
+    <div class="form-section">
+      <h2>Détails Bancaires</h2>
+
+      <div class="form-row">
+        <div class="form-group full">
+          <label for="nomBanque">Nom de la Banque</label>
+          <input
+            id="nomBanque"
+            type="text"
+            [(ngModel)]="formData.nomBanque"
+            placeholder="Nom de la banque"
+          />
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group half">
+          <label for="numeroCompte">N° de Compte</label>
+          <input
+            id="numeroCompte"
+            type="text"
+            [(ngModel)]="formData.numeroCompte"
+            placeholder="N° de compte"
+          />
+        </div>
+        <div class="form-group half">
+          <label for="rib">RIB</label>
+          <input id="rib" type="text" [(ngModel)]="formData.rib" placeholder="RIB" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 5: Description -->
+    <div class="form-section">
+      <h2>Observations</h2>
+
+      <div class="form-row">
+        <div class="form-group full">
+          <label for="description">Commentaires / Observations</label>
+          <textarea
+            id="description"
+            [(ngModel)]="formData.description"
+            placeholder="Informations supplémentaires..."
+            rows="4"
+          ></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- Boutons d'action -->
+    <div class="form-actions">
+      <button class="btn btn-secondary" (click)="goBack()">Annuler</button>
+      <button class="btn btn-primary" (click)="onSave()" [disabled]="isSaving">
+        {{ isSaving ? 'Enregistrement...' : 'Enregistrer' }}
+      </button>
+    </div>
+  </div>
+</div>

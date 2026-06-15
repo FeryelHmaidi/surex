@@ -1,0 +1,50 @@
+<div class="filters-bar">
+  <div class="filter-group">
+    <label for="filterStatut">Statut :</label>
+    <select
+      id="filterStatut"
+      [(ngModel)]="filters.statut"
+      (change)="onStatutChange(filters.statut)"
+    >
+      <option value="tous">Tous</option>
+      <option value="en_cours">En cours</option>
+      <option value="cloture">Clôturé</option>
+      <option value="emis">Émis</option>
+    </select>
+  </div>
+
+  <div class="filter-group">
+    <label for="filterDateStart">Date du :</label>
+    <input
+      id="filterDateStart"
+      type="date"
+      [(ngModel)]="filters.startDate"
+      (change)="onStartDateChange(filters.startDate)"
+    />
+  </div>
+
+  <div class="filter-group">
+    <label for="filterDateEnd">Au :</label>
+    <input
+      id="filterDateEnd"
+      type="date"
+      [(ngModel)]="filters.endDate"
+      (change)="onEndDateChange(filters.endDate)"
+    />
+  </div>
+
+  <div class="filter-group">
+    <label for="searchInput">Recherche :</label>
+    <input
+      id="searchInput"
+      type="text"
+      placeholder="Référence ou motif..."
+      [(ngModel)]="filters.search"
+      (input)="onSearchChange(filters.search)"
+    />
+  </div>
+
+  <button class="btn btn-outline" (click)="resetFilters()">
+    🔄 Réinitialiser
+  </button>
+</div>

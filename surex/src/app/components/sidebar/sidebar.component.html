@@ -1,0 +1,23 @@
+<div class="sidebar">
+  <div class="logo-area">
+    <h2>⚓ SUREX</h2>
+    <p>Surestaries Management</p>
+  </div>
+
+  <nav class="nav-menu">
+    <div
+      *ngFor="let item of navItems"
+      class="nav-item"
+      [class.active]="currentTab === item.dataView"
+      (click)="onNavItemClick(item)"
+      [attr.data-view]="item.dataView"
+    >
+      <span>{{ item.icon }}</span>
+      <span>{{ item.label }}</span>
+    </div>
+  </nav>
+
+  <div class="role-badge">
+    <strong>{{ currentActor | titlecase }}</strong>
+  </div>
+</div>
