@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { VirementFormComponent } from './components/virement-form/virement-form.component';
 import { CautionFormComponent } from './components/caution-form/caution-form.component';
+import { DocumentsComponent } from './components/documents/documents.component';
 
 export const routes: Routes = [
   {
@@ -27,5 +28,9 @@ export const routes: Routes = [
   {
     path: 'caution/:id',
     component: CautionFormComponent,
+  },
+  {
+    path: 'documents',
+    component: DocumentsComponent,
   },
 ];

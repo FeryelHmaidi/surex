@@ -3,7 +3,8 @@ import { CommonModule } from '@angular/common';
 import { TransactionService } from '../../services/transaction.service';
 import { ActorType } from '../../models/transaction.model';
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { takeUntil, filter } from 'rxjs/operators';
+import { Router, NavigationEnd } from '@angular/router';
 
 interface NavItem {
   icon: string;
@@ -58,7 +59,10 @@ export class SidebarComponent implements OnInit, OnDestroy {
     },
   ];
 
-  constructor(private transactionService: TransactionService) {}
+  constructor(
+    private transactionService: TransactionService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.transactionService.getCurrentActor()
@@ -72,8 +76,31 @@ export class SidebarComponent implements OnInit, OnDestroy {
     this.transactionService.getCurrentTab()
       .pipe(takeUntil(this.destroy$))
       .subscribe((tab) => {
-        this.currentTab = tab;
+        if (!this.router.url.includes('/documents')) {
+          this.currentTab = tab;
+        }
       });
+
+    // Écouter les changements de route pour mettre à jour l'onglet actif
+    this.router.events
+      .pipe(
+        filter((event): event is NavigationEnd => event instanceof NavigationEnd),
+        takeUntil(this.destroy$)
+      )
+      .subscribe((event: NavigationEnd) => {
+        if (event.urlAfterRedirects.includes('/documents')) {
+          this.currentTab = 'documents';
+        } else if (event.urlAfterRedirects === '/' || event.urlAfterRedirects.includes('/dashboard')) {
+          this.transactionService.getCurrentTab().pipe(takeUntil(this.destroy$)).subscribe(tab => {
+            this.currentTab = tab;
+          });
+        }
+      });
+
+    // Initialisation lors du premier chargement
+    if (this.router.url.includes('/documents')) {
+      this.currentTab = 'documents';
+    }
   }
 
   ngOnDestroy(): void {
@@ -82,14 +109,20 @@ export class SidebarComponent implements OnInit, OnDestroy {
   }
 
   onNavItemClick(item: NavItem): void {
-    if (item.dataView === 'dashboard') {
-      this.transactionService.setCurrentTab('caution');
-    } else if (item.dataView === 'caution') {
-      this.transactionService.setCurrentTab('caution');
-    } else if (item.dataView === 'virement-dt') {
-      this.transactionService.setCurrentTab('virementDT');
-    } else if (item.dataView === 'virement-devises') {
-      this.transactionService.setCurrentTab('virementDevises');
+    if (item.dataView === 'documents') {
+      this.currentTab = 'documents';
+      this.router.navigate(['/documents']);
+    } else {
+      if (item.dataView === 'dashboard') {
+        this.transactionService.setCurrentTab('caution');
+      } else if (item.dataView === 'caution') {
+        this.transactionService.setCurrentTab('caution');
+      } else if (item.dataView === 'virement-dt') {
+        this.transactionService.setCurrentTab('virementDT');
+      } else if (item.dataView === 'virement-devises') {
+        this.transactionService.setCurrentTab('virementDevises');
+      }
+      this.router.navigate(['/dashboard']);
     }
   }
 }

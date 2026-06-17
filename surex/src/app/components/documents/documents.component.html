@@ -1,0 +1,165 @@
+<div class="main-content">
+  <!-- En-tête -->
+  <div class="top-bar">
+    <div class="page-title">
+      <h1>Gestion des Documents</h1>
+      <p>Importateur - Centralisation des pièces justificatives et documents de transport</p>
+    </div>
+  </div>
+
+  <div class="documents-layout">
+    <!-- Colonne Gauche : Formulaire d'Upload -->
+    <div class="upload-section">
+      <div class="form-container-card">
+        <h2>Ajouter un Document</h2>
+        
+        <!-- Zone Drag & Drop -->
+        <div 
+          class="drag-drop-zone"
+          [class.dragover]="isDragOver"
+          (dragover)="onDragOver($event)"
+          (dragleave)="onDragLeave($event)"
+          (drop)="onDrop($event)"
+          (click)="fileInput.click()"
+        >
+          <span class="upload-icon">📤</span>
+          <p class="upload-text">
+            <strong>Glissez-déposez</strong> votre fichier ici ou <span class="browse-link">parcourez</span>
+          </p>
+          <p class="upload-info">PDF, PNG, JPG (Max. 10 Mo)</p>
+          
+          <input 
+            #fileInput
+            type="file"
+            (change)="onFileSelected($event)"
+            style="display: none;"
+          />
+        </div>
+
+        <!-- Détails du fichier sélectionné -->
+        <div *ngIf="selectedFileName" class="selected-file">
+          <span class="file-name-preview">📄 {{ selectedFileName }}</span>
+          <button class="btn-clear" (click)="clearSelectedFile()">✕</button>
+        </div>
+
+        <!-- Formulaire d'association -->
+        <div class="form-content">
+          <div class="form-group">
+            <label for="docType">Type de Document</label>
+            <select id="docType" [(ngModel)]="newDoc.type">
+              <option value="Connaissement (BL)">Connaissement (BL)</option>
+              <option value="Bon à Délivrer (BAD)">Bon à Délivrer (BAD)</option>
+              <option value="Facture Surestaries">Facture Surestaries</option>
+              <option value="Reçu Swift (Paiement)">Reçu Swift (Paiement)</option>
+              <option value="Lettre de Garantie">Lettre de Garantie</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="blRef">Référence BL / Conteneur associée</label>
+            <input 
+              id="blRef" 
+              type="text" 
+              [(ngModel)]="newDoc.referenceBL" 
+              placeholder="Ex: BL-2025-001"
+            />
+          </div>
+
+          <button 
+            class="btn btn-primary btn-block" 
+            (click)="addDocument()" 
+            [disabled]="!selectedFileName || !newDoc.referenceBL"
+          >
+            Ajouter au coffre-fort
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Colonne Droite : Tableau et Filtres -->
+    <div class="list-section">
+      <!-- Filtres -->
+      <div class="filters-card">
+        <div class="filter-group search">
+          <span class="search-icon">🔍</span>
+          <input 
+            type="text" 
+            [(ngModel)]="searchTerm" 
+            (input)="filterDocuments()"
+            placeholder="Rechercher par nom de fichier ou BL..."
+          />
+        </div>
+        
+        <div class="filter-group select-filter">
+          <label>Type :</label>
+          <select [(ngModel)]="filterType" (change)="filterDocuments()">
+            <option value="Tous">Tous</option>
+            <option value="Connaissement (BL)">BL</option>
+            <option value="Bon à Délivrer (BAD)">BAD</option>
+            <option value="Facture Surestaries">Factures</option>
+            <option value="Reçu Swift (Paiement)">Paiements</option>
+            <option value="Lettre de Garantie">Garanties</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Liste des Documents -->
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Document</th>
+              <th>Type</th>
+              <th>Réf. BL</th>
+              <th>Date d'ajout</th>
+              <th>Statut</th>
+              <th class="actions-header">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let doc of filteredDocs">
+              <td>
+                <div class="doc-info">
+                  <span class="doc-file-icon">📄</span>
+                  <div class="doc-text">
+                    <span class="doc-name">{{ doc.name }}</span>
+                    <span class="doc-size">{{ doc.size }}</span>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <span class="badge-type">{{ doc.type }}</span>
+              </td>
+              <td>
+                <span class="bl-ref">{{ doc.referenceBL }}</span>
+              </td>
+              <td class="doc-date">{{ doc.dateAdded }}</td>
+              <td>
+                <span 
+                  class="badge-status" 
+                  [class.status-valide]="doc.status === 'Validé'"
+                  [class.status-attente]="doc.status === 'En attente'"
+                  [class.status-rejete]="doc.status === 'Rejeté'"
+                >
+                  {{ doc.status }}
+                </span>
+              </td>
+              <td>
+                <div class="table-actions">
+                  <button class="action-btn" title="Télécharger" (click)="downloadDoc(doc)">📥</button>
+                  <button class="action-btn" title="Visualiser" (click)="previewDoc(doc)">👁️</button>
+                  <button class="action-btn delete" title="Supprimer" (click)="deleteDoc(doc)">🗑️</button>
+                </div>
+              </td>
+            </tr>
+            <tr *ngIf="filteredDocs.length === 0">
+              <td colspan="6" class="no-data">
+                Aucun document ne correspond à vos critères de recherche.
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
