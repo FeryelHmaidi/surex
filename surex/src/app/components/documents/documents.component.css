@@ -18,7 +18,7 @@
   padding: 24px;
 }
 
-/* En-tête */
+
 .top-bar {
   margin-bottom: 24px;
   padding-bottom: 12px;
@@ -46,7 +46,6 @@
   align-items: start;
 }
 
-/* Cards stylisées */
 .form-container-card, .list-section {
   background: white;
   border-radius: 20px;
@@ -76,7 +75,7 @@
   font-size: 1.1rem;
 }
 
-/* Zone Drag & Drop Premium */
+
 .drag-drop-zone {
   border: 2px dashed #cbd5e1;
   border-radius: 12px;
@@ -164,7 +163,7 @@
   z-index: 1;
 }
 
-/* Selected File Preview */
+
 .selected-file {
   display: flex;
   align-items: center;
@@ -208,7 +207,7 @@
   background: rgba(3, 105, 161, 0.1);
 }
 
-/* Form inputs style */
+
 .form-content {
   display: flex;
   flex-direction: column;
@@ -246,7 +245,7 @@
   background: white;
 }
 
-/* Buttons */
+
 .btn {
   padding: 12px 16px;
   border-radius: 30px;
@@ -286,7 +285,7 @@
   width: 100%;
 }
 
-/* Filters Card */
+
 .filters-card {
   display: flex;
   justify-content: space-between;
@@ -455,7 +454,7 @@ tr:hover .doc-name {
   margin-top: 2px;
 }
 
-/* Badges Type */
+
 .badge-type {
   display: inline-flex;
   align-items: center;
@@ -486,7 +485,7 @@ tr:hover .doc-name {
   white-space: nowrap;
 }
 
-/* Badges de Statut Style Pill */
+
 .badge-status {
   display: inline-flex;
   align-items: center;
@@ -519,7 +518,7 @@ tr:hover .doc-name {
   border: 1px solid #fecaca;
 }
 
-/* Actions Style Premium */
+
 .table-actions {
   display: flex;
   gap: 6px;
@@ -562,7 +561,7 @@ tr:hover .doc-name {
   padding: 48px 24px;
 }
 
-/* Responsive grid layouts */
+
 @media (max-width: 1280px) {
   .documents-layout {
     grid-template-columns: 1fr; 
