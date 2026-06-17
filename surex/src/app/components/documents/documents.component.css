@@ -1,7 +1,7 @@
 :host {
   flex: 1;
   height: 100vh;
-  min-width: 0; /* Empêche le composant de dépasser la largeur de son parent flex */
+  min-width: 0; 
   overflow-y: auto;
   background: #f3f4f6;
   font-family: 'Inter', sans-serif;
@@ -15,7 +15,7 @@
 }
 
 .main-content {
-  padding: 24px; /* Réduit pour donner plus de place aux éléments */
+  padding: 24px;
 }
 
 /* En-tête */
@@ -38,7 +38,7 @@
   font-size: 0.9rem;
 }
 
-/* Layout Grid - Colonnes ajustées pour donner plus de place au tableau */
+
 .documents-layout {
   display: grid;
   grid-template-columns: 320px 1fr;
@@ -52,7 +52,7 @@
   border-radius: 20px;
   box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.02), 0 8px 10px -6px rgba(0, 0, 0, 0.02), 0 0 0 1px rgba(0, 0, 0, 0.03);
   transition: all 0.3s ease;
-  min-width: 0; /* Crucial pour le grid-layout */
+  min-width: 0; 
 }
 
 .form-container-card {
@@ -361,18 +361,18 @@
   border-color: #0f2b3d;
 }
 
-/* Table container with responsive horizontal scroll */
+
 .table-container {
   background: white;
   border-radius: 20px;
-  overflow-x: auto; /* Permet le défilement horizontal de la carte tableau si l'écran est petit */
+  overflow-x: auto; 
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
 }
 
 table {
   width: 100%;
   border-collapse: collapse;
-  min-width: 700px; /* Évite que les colonnes soient trop serrées en forçant une largeur minimale interne */
+  min-width: 700px; 
 }
 
 th, td {
@@ -430,10 +430,10 @@ tr:hover .doc-file-icon {
 .doc-text {
   display: flex;
   flex-direction: column;
-  min-width: 0; /* Important pour permettre la troncature du texte */
+  min-width: 0; 
 }
 
-/* Limite la largeur du nom du fichier pour éviter qu'il ne pousse le tableau hors de l'écran */
+
 .doc-name {
   font-weight: 600;
   color: #1e293b;
@@ -441,7 +441,7 @@ tr:hover .doc-file-icon {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 180px; /* Troncature intelligente du nom du fichier */
+  max-width: 180px; 
   transition: color 0.2s;
 }
 
@@ -565,7 +565,7 @@ tr:hover .doc-name {
 /* Responsive grid layouts */
 @media (max-width: 1280px) {
   .documents-layout {
-    grid-template-columns: 1fr; /* Bascule en 1 seule colonne verticale pour les écrans moyens/petits */
+    grid-template-columns: 1fr; 
     gap: 24px;
   }
   
