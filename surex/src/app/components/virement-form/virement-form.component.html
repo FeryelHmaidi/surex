@@ -18,8 +18,12 @@
             id="motif"
             type="text"
             [(ngModel)]="formData.motif"
+            [class.invalid]="isSubmitted && errors.motif"
             placeholder="Ex: Surestaries - Conteneur MSCU123"
           />
+          <span *ngIf="isSubmitted && errors.motif" class="error-message">
+            {{ errors.motif }}
+          </span>
         </div>
       </div>
 
@@ -30,17 +34,25 @@
             id="reference"
             type="text"
             [(ngModel)]="formData.referenceBL"
+            [class.invalid]="isSubmitted && errors.referenceBL"
             placeholder="Ex: BL-2025-001"
           />
+          <span *ngIf="isSubmitted && errors.referenceBL" class="error-message">
+            {{ errors.referenceBL }}
+          </span>
         </div>
         <div class="form-group half">
-          <label for="montant">Montant</label>
+          <label for="montant">Montant (DT)</label>
           <input
             id="montant"
             type="number"
             [(ngModel)]="formData.montant"
+            [class.invalid]="isSubmitted && errors.montant"
             placeholder="0.00"
           />
+          <span *ngIf="isSubmitted && errors.montant" class="error-message">
+            {{ errors.montant }}
+          </span>
         </div>
       </div>
     </div>
@@ -52,7 +64,16 @@
       <div class="form-row">
         <div class="form-group half">
           <label for="rib">RIB</label>
-          <input id="rib" type="text" [(ngModel)]="formData.rib" placeholder="RIB" />
+          <input 
+            id="rib" 
+            type="text" 
+            [(ngModel)]="formData.rib" 
+            [class.invalid]="isSubmitted && errors.rib"
+            placeholder="RIB (20 chiffres)" 
+          />
+          <span *ngIf="isSubmitted && errors.rib" class="error-message">
+            {{ errors.rib }}
+          </span>
         </div>
         <div class="form-group half">
           <label for="banque">Banque</label>
@@ -60,8 +81,12 @@
             id="banque"
             type="text"
             [(ngModel)]="formData.banque"
+            [class.invalid]="isSubmitted && errors.banque"
             placeholder="Nom de la banque"
           />
+          <span *ngIf="isSubmitted && errors.banque" class="error-message">
+            {{ errors.banque }}
+          </span>
         </div>
       </div>
     </div>
@@ -77,8 +102,12 @@
             id="nomComplet"
             type="text"
             [(ngModel)]="formData.nomComplet"
+            [class.invalid]="isSubmitted && errors.nomComplet"
             placeholder="Nom du bénéficiaire"
           />
+          <span *ngIf="isSubmitted && errors.nomComplet" class="error-message">
+            {{ errors.nomComplet }}
+          </span>
         </div>
         <div class="form-group half">
           <label for="ribBenef">RIB</label>
@@ -86,8 +115,12 @@
             id="ribBenef"
             type="text"
             [(ngModel)]="formData.ribBenef"
-            placeholder="RIB"
+            [class.invalid]="isSubmitted && errors.ribBenef"
+            placeholder="RIB (20 chiffres)"
           />
+          <span *ngIf="isSubmitted && errors.ribBenef" class="error-message">
+            {{ errors.ribBenef }}
+          </span>
         </div>
       </div>
 
@@ -98,8 +131,12 @@
             id="banqueBenef"
             type="text"
             [(ngModel)]="formData.banqueBeneficiaire"
+            [class.invalid]="isSubmitted && errors.banqueBeneficiaire"
             placeholder="Banque du bénéficiaire"
           />
+          <span *ngIf="isSubmitted && errors.banqueBeneficiaire" class="error-message">
+            {{ errors.banqueBeneficiaire }}
+          </span>
         </div>
       </div>
     </div>

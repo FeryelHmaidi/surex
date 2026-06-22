@@ -6,7 +6,7 @@
 
   <div *ngIf="isLoading" class="loading">Chargement...</div>
 
-  <div *ngIf="!isLoading" class="form-content">
+  <form *ngIf="!isLoading" [formGroup]="cautionForm" (ngSubmit)="onSave()" class="form-content">
     <!-- Section 1: Informations Générales -->
     <div class="form-section">
       <h2>Informations Générales</h2>
@@ -17,13 +17,17 @@
           <input
             id="reference"
             type="text"
-            [(ngModel)]="formData.reference"
+            formControlName="reference"
+            [class.invalid]="isSubmitted && f['reference'].invalid"
             placeholder="Ex: CAU/2025/001"
           />
+          <span *ngIf="isSubmitted && f['reference'].errors?.['required']" class="error-message">
+            La référence est obligatoire.
+          </span>
         </div>
         <div class="form-group half">
           <label for="type">Type de Caution</label>
-          <select id="type" [(ngModel)]="formData.type">
+          <select id="type" formControlName="type">
             <option *ngFor="let type of cautionTypes" [value]="type.value">
               {{ type.label }}
             </option>
@@ -37,13 +41,20 @@
           <input
             id="montant"
             type="number"
-            [(ngModel)]="formData.montant"
+            formControlName="montant"
+            [class.invalid]="isSubmitted && f['montant'].invalid"
             placeholder="0.00"
           />
+          <span *ngIf="isSubmitted && f['montant'].errors?.['required']" class="error-message">
+            Le montant est obligatoire.
+          </span>
+          <span *ngIf="isSubmitted && f['montant'].errors?.['min']" class="error-message">
+            Le montant doit être supérieur à 0.
+          </span>
         </div>
         <div class="form-group half">
           <label for="devise">Devise</label>
-          <select id="devise" [(ngModel)]="formData.devise">
+          <select id="devise" formControlName="devise">
             <option *ngFor="let devise of devises" [value]="devise">
               {{ devise }}
             </option>
@@ -59,15 +70,30 @@
       <div class="form-row">
         <div class="form-group half">
           <label for="dateEmission">Date d'émission</label>
-          <input id="dateEmission" type="date" [(ngModel)]="formData.dateEmission" />
+          <input 
+            id="dateEmission" 
+            type="date" 
+            formControlName="dateEmission" 
+            [class.invalid]="isSubmitted && f['dateEmission'].invalid"
+          />
+          <span *ngIf="isSubmitted && f['dateEmission'].errors?.['required']" class="error-message">
+            La date d'émission est obligatoire.
+          </span>
         </div>
         <div class="form-group half">
           <label for="dateExpiration">Date d'expiration</label>
           <input
             id="dateExpiration"
             type="date"
-            [(ngModel)]="formData.dateExpiration"
+            formControlName="dateExpiration"
+            [class.invalid]="isSubmitted && f['dateExpiration'].invalid"
           />
+          <span *ngIf="isSubmitted && f['dateExpiration'].errors?.['required']" class="error-message">
+            La date d'expiration est obligatoire.
+          </span>
+          <span *ngIf="isSubmitted && f['dateExpiration'].errors?.['dateLessThan']" class="error-message">
+            La date d'expiration doit être postérieure ou égale à la date d'émission.
+          </span>
         </div>
       </div>
     </div>
@@ -82,9 +108,13 @@
           <input
             id="beneficiaire"
             type="text"
-            [(ngModel)]="formData.beneficiaire"
+            formControlName="beneficiaire"
+            [class.invalid]="isSubmitted && f['beneficiaire'].invalid"
             placeholder="Ex: Douane Tunisienne"
           />
+          <span *ngIf="isSubmitted && f['beneficiaire'].errors?.['required']" class="error-message">
+            Le nom du bénéficiaire est obligatoire.
+          </span>
         </div>
       </div>
     </div>
@@ -99,9 +129,13 @@
           <input
             id="nomBanque"
             type="text"
-            [(ngModel)]="formData.nomBanque"
+            formControlName="nomBanque"
+            [class.invalid]="isSubmitted && f['nomBanque'].invalid"
             placeholder="Nom de la banque"
           />
+          <span *ngIf="isSubmitted && f['nomBanque'].errors?.['required']" class="error-message">
+            Le nom de la banque est obligatoire.
+          </span>
         </div>
       </div>
 
@@ -111,13 +145,29 @@
           <input
             id="numeroCompte"
             type="text"
-            [(ngModel)]="formData.numeroCompte"
+            formControlName="numeroCompte"
+            [class.invalid]="isSubmitted && f['numeroCompte'].invalid"
             placeholder="N° de compte"
           />
+          <span *ngIf="isSubmitted && f['numeroCompte'].errors?.['required']" class="error-message">
+            Le numéro de compte est obligatoire.
+          </span>
         </div>
         <div class="form-group half">
           <label for="rib">RIB</label>
-          <input id="rib" type="text" [(ngModel)]="formData.rib" placeholder="RIB" />
+          <input 
+            id="rib" 
+            type="text" 
+            formControlName="rib" 
+            [class.invalid]="isSubmitted && f['rib'].invalid"
+            placeholder="RIB (20 chiffres)" 
+          />
+          <span *ngIf="isSubmitted && f['rib'].errors?.['required']" class="error-message">
+            Le RIB est obligatoire.
+          </span>
+          <span *ngIf="isSubmitted && f['rib'].errors?.['pattern']" class="error-message">
+            Le RIB doit contenir exactement 20 chiffres.
+          </span>
         </div>
       </div>
     </div>
@@ -131,7 +181,7 @@
           <label for="description">Commentaires / Observations</label>
           <textarea
             id="description"
-            [(ngModel)]="formData.description"
+            formControlName="description"
             placeholder="Informations supplémentaires..."
             rows="4"
           ></textarea>
@@ -139,12 +189,12 @@
       </div>
     </div>
 
-    <!-- Boutons d'action -->
+   
     <div class="form-actions">
-      <button class="btn btn-secondary" (click)="goBack()">Annuler</button>
-      <button class="btn btn-primary" (click)="onSave()" [disabled]="isSaving">
+      <button type="button" class="btn btn-secondary" (click)="goBack()">Annuler</button>
+      <button type="submit" class="btn btn-primary" [disabled]="isSaving">
         {{ isSaving ? 'Enregistrement...' : 'Enregistrer' }}
       </button>
     </div>
-  </div>
+  </form>
 </div>

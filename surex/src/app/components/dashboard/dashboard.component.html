@@ -1,5 +1,5 @@
 <div class="main-content">
-  <!-- Top bar with title and actor selector -->
+  
   <div class="top-bar">
     <div class="page-title">
       <h1>{{ mainTitle }}</h1>
@@ -23,16 +23,16 @@
     </div>
   </div>
 
-  <!-- KPI Grid -->
+  
   <app-kpi-grid [kpiData]="kpiData"></app-kpi-grid>
 
   <!-- Filters Bar -->
   <app-filters></app-filters>
 
-  <!-- Tabs -->
+  
   <app-tabs></app-tabs>
 
-  <!-- Transactions Table -->
+  
   <app-transactions-table
     [transactions]="filteredTransactions"
     [currentActor]="currentActor"

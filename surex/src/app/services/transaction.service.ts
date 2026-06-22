@@ -13,7 +13,7 @@ import {
   providedIn: 'root',
 })
 export class TransactionService {
-  private readonly allTransactions: Transaction[] = [
+  private allTransactions: Transaction[] = [
     {
       id: 'C-1001',
       type: 'caution',
@@ -299,5 +299,51 @@ getFilteredTransactions(): Observable<Transaction[]> {
       return ['virementDevises'];
     }
     return ['caution', 'virementDT', 'virementDevises'];
+  }
+
+  getTransactionById(id: string): Transaction | undefined {
+    return this.allTransactions.find((t) => t.id === id);
+  }
+
+  addTransaction(transaction: Omit<Transaction, 'id' | 'statut'>): void {
+    const isCaution = (transaction as any).type === 'caution';
+    const nextIdNumber = this.allTransactions.length + 1001;
+    const newTx: Transaction = {
+      ...transaction,
+      id: isCaution ? `C-${nextIdNumber}` : `V-${nextIdNumber}`,
+      statut: 'en_cours',
+    } as Transaction;
+
+    this.allTransactions.push(newTx);
+    this.filters$.next(this.filters$.value);
+  }
+
+  updateTransaction(id: string, updates: Partial<Transaction>): void {
+    const index = this.allTransactions.findIndex((t) => t.id === id);
+    if (index !== -1) {
+      this.allTransactions[index] = {
+        ...this.allTransactions[index],
+        ...updates,
+      };
+      this.filters$.next(this.filters$.value);
+    }
+  }
+
+  deleteTransaction(id: string): void {
+    this.allTransactions = this.allTransactions.filter((t) => t.id !== id);
+    this.filters$.next(this.filters$.value);
+  }
+
+  approveTransaction(id: string): void {
+    const index = this.allTransactions.findIndex((t) => t.id === id);
+    if (index !== -1) {
+      const tx = this.allTransactions[index];
+      const nextStatus = tx.statut === 'en_cours' ? 'emis' : 'cloture';
+      this.allTransactions[index] = {
+        ...tx,
+        statut: nextStatus,
+      };
+      this.filters$.next(this.filters$.value);
+    }
   }
 }

@@ -81,7 +81,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
         }
       });
 
-    // Écouter les changements de route pour mettre à jour l'onglet actif
+    
     this.router.events
       .pipe(
         filter((event): event is NavigationEnd => event instanceof NavigationEnd),
@@ -97,7 +97,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
         }
       });
 
-    // Initialisation lors du premier chargement
+    
     if (this.router.url.includes('/documents')) {
       this.currentTab = 'documents';
     }
