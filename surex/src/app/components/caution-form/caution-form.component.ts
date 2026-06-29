@@ -68,9 +68,15 @@ export class CautionFormComponent implements OnInit {
     return (group: FormGroup): {[key: string]: any} | null => {
       const f = group.get(from);
       const t = group.get(to);
-      if (f && t && f.value && t.value && f.value > t.value) {
-        t.setErrors({ dateLessThan: true });
-        return { dateLessThan: true };
+      if (f && t) {
+        if (f.value && t.value && f.value > t.value) {
+          t.setErrors({ dateLessThan: true });
+          return { dateLessThan: true };
+        } else if (t.hasError('dateLessThan')) {
+          const errors = { ...t.errors };
+          delete errors['dateLessThan'];
+          t.setErrors(Object.keys(errors).length > 0 ? errors : null);
+        }
       }
       return null;
     };
